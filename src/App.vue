@@ -2,20 +2,20 @@
   <v-app>
     <NavBar></NavBar>
     <v-content>
-      <HelloWorld/>
+      <router-view/>
     </v-content>
     <v-footer>&copy; 2018- bibuli.</v-footer>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
+// import HelloWorld from './components/HelloWorld'
 import NavBar from './components/NavBar'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
+    // HelloWorld,
     NavBar
   },
   data () {
