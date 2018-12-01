@@ -15,11 +15,11 @@
 .v-toolbar {
   background-color: #4CB5AB !important;
 }
-a {
-  color: #FFF !important;
+.v-toolbar a {
+  color: #FFF;
   text-decoration: none;
 }
-a.router-link-exact-active:not(.logo) {
+.v-toolbar a.router-link-exact-active:not(.logo) {
   border-bottom: 4px solid #FFF;
 }
 </style>
