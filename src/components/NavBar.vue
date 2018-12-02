@@ -1,10 +1,12 @@
 <template>
-  <v-toolbar app flat>
+  <v-toolbar app flat dark class="primary">
     <v-toolbar-title class="headline">
       <router-link to="/" class="logo">bibuli</router-link>
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    <router-link to="/search">検索</router-link>
+    <v-toolbar-items>
+      <v-btn to="/search" flat>検索</v-btn>
+    </v-toolbar-items>
   </v-toolbar>
 </template>
 
@@ -12,14 +14,21 @@
 </script>
 
 <style>
-.v-toolbar {
-  background-color: #4CB5AB !important;
-}
 .v-toolbar a {
   color: #FFF;
   text-decoration: none;
 }
-.v-toolbar a.router-link-exact-active:not(.logo) {
-  border-bottom: 4px solid #FFF;
+.v-toolbar a.v-btn--active {
+  position: relative;
+}
+.v-toolbar a.v-btn--active:after {
+  display: block;
+  content: "";
+  background-color: #FFF;
+  height: 4px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 </style>
