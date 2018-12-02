@@ -55,7 +55,6 @@ export default {
   methods: {
     onSearchClicked: function () {
       let self = this
-      console.log(self.type)
       searcher.bookSearch(self.text, types[self.type])
         .then(function (books) {
           books.forEach(book => {
@@ -63,7 +62,6 @@ export default {
           })
         }).catch(function (e) {
           self.books.splice(0, self.books.length)
-          console.log(e.message)
         })
     }
   }
