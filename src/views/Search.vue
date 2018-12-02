@@ -68,7 +68,7 @@ export default {
       self.error = ''
       searcher.bookSearch(self.text, types[self.type])
         .then(function (books) {
-          books = []
+          // books = []
           if (!books.length) {
             self.error = '該当する書籍が見つかりませんでした。'
           } else {
