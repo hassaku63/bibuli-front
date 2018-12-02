@@ -31,12 +31,14 @@ const search = (word, by) => {
         word, by
       }
     }).then(result => {
-      if ('matchted_items' in result) {
+      console.log(result)
+      if ('matched_items' in result) {
         resolve(result.matched_items)
       } else {
         reject(new Error('no "matched_items" key'))
       }
     }, err => {
+      console.log(err)
       reject(new Error(err))
     })
   })
