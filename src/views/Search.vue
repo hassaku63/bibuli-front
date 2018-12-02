@@ -14,19 +14,27 @@
           solo
         ></v-select>
         </v-flex>
-      <v-flex xs8 sm7 md6 class="search-bar">
-        <v-text-field
-          v-model="text"
-          v-on:keyup.enter="onSearchClicked"
-          label="Solo"
-          placeholder="search..."
-          class="search-text"
-          solo
-        ></v-text-field>
-        <v-btn flat icon @click="onSearchClicked" class="search-icon">
-          <v-icon>search</v-icon>
-        </v-btn>
-      </v-flex>
+        <v-flex xs8 sm7 md6 class="search-bar">
+          <v-text-field
+            v-model="text"
+            v-on:keyup.enter="onSearchClicked"
+            label="Solo"
+            placeholder="search..."
+            class="search-text"
+            solo
+          ></v-text-field>
+          <v-btn flat icon @click="onSearchClicked" class="search-icon">
+            <v-icon>search</v-icon>
+          </v-btn>
+        </v-flex>
+      </v-layout>
+      <v-layout v-if="error">
+        <v-alert
+          :value="true"
+          color="warning"
+          icon="priority_high"
+          outline
+        >{{error}}</v-alert>
       </v-layout>
       <v-layout>
         <Card v-for="(book) in books" :key="book.book_id" :book="book"></Card>
@@ -57,13 +65,20 @@ export default {
   methods: {
     onSearchClicked: function () {
       let self = this
+      self.error = ''
       searcher.bookSearch(self.text, types[self.type])
         .then(function (books) {
-          books.forEach(book => {
-            self.books.splice(0, self.books.length, ...books)
-          })
+          books = []
+          if (!books.length) {
+            self.error = '該当する書籍が見つかりませんでした。'
+          } else {
+            books.forEach(book => {
+              self.books.splice(0, self.books.length, ...books)
+            })
+          }
         }).catch(function (e) {
           self.books.splice(0, self.books.length)
+          self.error = e.message
         })
     }
   }
