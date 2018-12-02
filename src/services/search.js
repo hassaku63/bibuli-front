@@ -32,8 +32,8 @@ const search = (word, by) => {
       }
     }).then(result => {
       console.log(result)
-      if ('matched_items' in result) {
-        resolve(result.matched_items)
+      if ('matched_items' in result.data) {
+        resolve(result.data.matched_items)
       } else {
         reject(new Error('no "matched_items" key'))
       }
