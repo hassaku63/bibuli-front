@@ -1,13 +1,16 @@
+import axios from 'axios'
+
 /* eslint-disable no-unused-vars */
 
 export default {
   bookSearch: function (word, by) {
+    console.log(process.env.VUE_APP_AWS_API_GATEWAY_DOMAIN)
     return new Promise(function (resolve, reject) {
       if (!validateArgs(word, by)) {
         reject(new Error('validation error'))
       }
 
-      dummySearch(word, by).then(function (data) {
+      search(word, by).then(function (data) {
         resolve(data)
       })
     })
@@ -19,6 +22,24 @@ const validateArgs = (word, by) => {
     return false
   }
   return true
+}
+
+const search = (word, by) => {
+  return new Promise((resolve, reject) => {
+    axios.get('https://' + process.env.VUE_APP_AWS_API_GATEWAY_DOMAIN + '/search', {
+      params: {
+        word, by
+      }
+    }).then(result => {
+      if ('matchted_items' in result) {
+        resolve(result.matched_items)
+      } else {
+        reject(new Error('no "matched_items" key'))
+      }
+    }, err => {
+      reject(new Error(err))
+    })
+  })
 }
 
 const dummySearch = (word, by) => {
