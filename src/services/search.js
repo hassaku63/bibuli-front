@@ -26,7 +26,7 @@ const validateArgs = (word, by) => {
 
 const search = (word, by) => {
   return new Promise((resolve, reject) => {
-    axios.get('https://' + process.env.VUE_APP_AWS_API_GATEWAY_DOMAIN + '/search', {
+    axios.get('https://' + process.env.VUE_APP_AWS_API_GATEWAY_DOMAIN + process.env.VUE_APP_AWS_API_PREFIX + '/search', {
       params: {
         word, by
       }
