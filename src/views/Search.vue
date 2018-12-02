@@ -14,17 +14,19 @@
           solo
         ></v-select>
         </v-flex>
-      <v-flex xs8 sm7 md6>
+      <v-flex xs8 sm7 md6 class="search-bar">
         <v-text-field
           v-model="text"
+          v-on:keyup.enter="onSearchClicked"
           label="Solo"
           placeholder="search..."
+          class="search-text"
           solo
         ></v-text-field>
+        <v-btn flat icon @click="onSearchClicked" class="search-icon">
+          <v-icon>search</v-icon>
+        </v-btn>
       </v-flex>
-      <v-btn flat icon @click="onSearchClicked">
-        <v-icon>search</v-icon>
-      </v-btn>
       </v-layout>
       <v-layout>
         <Card v-for="(book) in books" :key="book.book_id" :book="book"></Card>
@@ -69,4 +71,12 @@ export default {
 </script>
 
 <style>
+.search-bar {
+  position: relative;
+}
+.search-bar .search-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 </style>
