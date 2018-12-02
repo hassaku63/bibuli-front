@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar app flat>
+  <v-toolbar app flat class="primary">
     <v-toolbar-title class="headline">
       <router-link to="/" class="logo">bibuli</router-link>
     </v-toolbar-title>
@@ -12,9 +12,6 @@
 </script>
 
 <style>
-.v-toolbar {
-  background-color: #4CB5AB !important;
-}
 .v-toolbar a {
   color: #FFF;
   text-decoration: none;
