@@ -31,6 +31,9 @@ const search = (word, by) => {
         word, by
       }
     }).then(result => {
+      console.log('Requests')
+      console.log(word, by)
+      console.log('Results')
       console.log(result)
       if ('matched_items' in result.data) {
         resolve(result.data.matched_items)
