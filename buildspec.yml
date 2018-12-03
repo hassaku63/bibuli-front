@@ -9,7 +9,9 @@ phases:
       - npm install
   build:
     commands:
+      - echo Start build with ${BUILD_MODE} mode.
       - npm run build --mode ${BUILD_MODE}
   post_build:
     commands:
-      - aws s3 sync dist s3://${S3_BUCKET} --delete
+      - echo Deploy to s3://${DEPLOY_S3_BUCKET}
+      - aws s3 sync dist s3://${DEPLOY_S3_BUCKET} --delete
