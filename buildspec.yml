@@ -11,7 +11,7 @@ phases:
   build:
     commands:
       - echo Start build with ${BUILD_MODE} mode.
-      - npm run build --mode ${BUILD_MODE}
+      - npm run build-${BUILD_MODE}
   post_build:
     commands:
       - echo Deploy to s3://${DEPLOY_S3_BUCKET}
