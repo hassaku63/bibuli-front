@@ -7,7 +7,7 @@ phases:
       - pip install --upgrade awscli
       - npm update -g npm
       - npm install
-      - npm install --dev
+      - npm install --only=dev
   build:
     commands:
       - echo Start build with ${BUILD_MODE} mode.
