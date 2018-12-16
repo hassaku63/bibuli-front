@@ -1,6 +1,6 @@
 <template>
 <v-flex xs12 sm4>
-  <v-card>
+  <v-card class="book-card">
     <v-img v-bind:src="book.thumbnail_url" aspect-ratio="1.5">
     </v-img>
     <v-card-title primary-title>
@@ -21,7 +21,10 @@ export default {
 </script>
 
 <style>
-.v-card__title {
+.book-card {
+  cursor: pointer
+}
+.book-card .v-card__title {
   position: absolute;
   left: 0;
   right: 0;

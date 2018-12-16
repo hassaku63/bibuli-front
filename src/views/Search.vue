@@ -37,13 +37,15 @@
         >{{error}}</v-alert>
       </v-layout>
       <v-layout>
-        <Card v-for="(book) in books" :key="book.book_id" :book="book"></Card>
+        <Card v-for="(book) in books" :key="book.book_id" :book="book" @click.native="openModal"></Card>
+        <RentalModal ref="rentalModal"></RentalModal>
       </v-layout>
     </v-container>
 </template>
 
 <script>
 import Card from '../components/Card.vue'
+import RentalModal from '../components/RentalModal.vue'
 import searcher from '../services/search'
 
 const types = {
@@ -53,7 +55,8 @@ const types = {
 
 export default {
   components: {
-    Card
+    Card,
+    RentalModal
   },
   data: () => ({
     type: 'タイトル',
@@ -66,6 +69,7 @@ export default {
     onSearchClicked: function () {
       let self = this
       self.error = ''
+      console.log(self.text)
       searcher.bookSearch(self.text, types[self.type])
         .then(function (books) {
           // books = []
@@ -80,6 +84,9 @@ export default {
           self.books.splice(0, self.books.length)
           self.error = e.message
         })
+    },
+    openModal: function () {
+      this.$refs.rentalModal.open()
     }
   }
 }
