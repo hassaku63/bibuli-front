@@ -37,7 +37,7 @@
         >{{error}}</v-alert>
       </v-layout>
       <v-layout>
-        <Card v-for="(book) in books" :key="book.book_id" :book="book" @click.native="openModal"></Card>
+        <Card v-for="(book) in books" :key="book.book_id" :book="book" @click.native="openModal(book)"></Card>
         <RentalModal ref="rentalModal"></RentalModal>
       </v-layout>
     </v-container>
@@ -85,8 +85,8 @@ export default {
           self.error = e.message
         })
     },
-    openModal: function () {
-      this.$refs.rentalModal.open()
+    openModal: function (book) {
+      this.$refs.rentalModal.open(book)
     }
   }
 }
