@@ -10,7 +10,7 @@ export default {
         reject(new Error('validation error'))
       }
 
-      search(word, by).then(function (data) {
+      dummySearch(word, by).then(function (data) {
         resolve(data)
       })
     })
