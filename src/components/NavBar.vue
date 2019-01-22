@@ -5,12 +5,21 @@
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items>
-      <v-btn to="/search" flat>検索</v-btn>
+      <v-btn v-if="Auth" :to="{name: 'search'}" flat>検索</v-btn>
+      <v-btn v-if="Auth" :to="{name: 'mypage'}" flat>マイページ</v-btn>
+      <v-btn v-if="!Auth" :to="{name: 'login'}" flat>ログイン</v-btn>
     </v-toolbar-items>
   </v-toolbar>
 </template>
 
 <script>
+export default {
+  data: () => {
+    return {
+      Auth: true
+    }
+  }
+}
 </script>
 
 <style>
