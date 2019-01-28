@@ -9,14 +9,12 @@
             v-model="valid"
             lazy-validation
           >
-          
             <v-text-field
               v-model="email"
               :rules="emailRules"
               label="メールアドレス"
               required
             ></v-text-field>
-          
             <v-text-field
               v-model="password"
               :append-icon="show ? 'visibility_off' : 'visibility'"
@@ -28,7 +26,6 @@
               counter
               @click:append="show = !show"
             ></v-text-field>
-          
             <v-layout align-center justify-center class="mt-2">
               <v-btn
                 :disabled="!valid"
@@ -38,7 +35,6 @@
                 ログイン
               </v-btn>
             </v-layout>
-          
           </v-form>
         </v-card-text>
       </v-card>
