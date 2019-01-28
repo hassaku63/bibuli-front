@@ -45,6 +45,8 @@ router.beforeEach((to, from, next) => {
   var loggedIn = store.state.loggedIn
   if (to.matched.some(record => !record.meta.isPublic) && !loggedIn) {
     next({ path: '/login' })
+  } else if (to.path === '/login' && loggedIn) {
+    next({ path: '/' })
   } else {
     next()
   }
