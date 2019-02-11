@@ -14,7 +14,7 @@
               <v-card-text class="pt-0">{{book.description}}</v-card-text>
               <v-card-actions>
                 <v-btn flat="flat" @click="close">キャンセル</v-btn>
-                <v-btn class="primary">借りる</v-btn>
+                <v-btn class="primary" @click="onRentalClicked" :loading="loading">{{ buttonText }}</v-btn>
               </v-card-actions>
             </v-flex>
           </v-flex>
@@ -25,11 +25,15 @@
 </template>
 
 <script>
+import books from '../services/books.js'
+
 export default {
   data: function () {
     return {
       dialog: false,
-      book: {}
+      book: {},
+      buttonText: '借りる',
+      loading: false
     }
   },
   methods: {
@@ -39,6 +43,21 @@ export default {
     },
     close () {
       this.dialog = false
+    },
+    onRentalClicked () {
+      this.loading = true
+      let bookId = 1
+      books.rentalBook(bookId)
+        .then((result) => {
+          this.buttonText = 'OK'
+          this.loading = false
+          setInterval(() => {
+            this.dialog = false
+          }, 750)
+        }, (e) => {
+          this.buttonText = 'Error'
+          this.loading = false
+        })
     }
   }
 }
