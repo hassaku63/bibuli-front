@@ -36,6 +36,7 @@
 
 <script>
 import ReturnModal from '../components/ReturnModal.vue'
+import books from '../services/books.js'
 
 export default {
   components: {
@@ -47,34 +48,43 @@ export default {
         divider: true,
         inset: true
       },
-      user: 'ahaha',
-      books: [
-        {
-          thumbnail: 'https://images-fe.ssl-images-amazon.com/images/I/51bPeV7xPFL.jpg',
-          title: '魔法の世紀',
-          due_date: '2019/1/30'
-        },
-        {
-          thumbnail: 'https://images-fe.ssl-images-amazon.com/images/I/51bPeV7xPFL.jpg',
-          title: 'ある男',
-          due_date: '2019/1/23'
-        }
-      ]
+      user: 'ahaha'
+      // books: [
+      //   {
+      //     thumbnail: 'https://images-fe.ssl-images-amazon.com/images/I/51bPeV7xPFL.jpg',
+      //     title: '魔法の世紀',
+      //     due_date: '2019/1/30'
+      //   },
+      //   {
+      //     thumbnail: 'https://images-fe.ssl-images-amazon.com/images/I/51bPeV7xPFL.jpg',
+      //     title: 'ある男',
+      //     due_date: '2019/1/23'
+      //   }
+      // ]
     }
   },
 
   computed: {
     today: () => {
       return new Date()
+    },
+    books: () => {
+      books.listRentals()
+        .then((result) => {
+          console.log('success')
+          return result
+        }, (e) => {
+          console.log(e)
+        })
     }
   },
 
   methods: {
-    isExpired: function (dueDate) {
+    isExpired (dueDate) {
       dueDate = new Date(dueDate)
       return dueDate < this.today
     },
-    openModal: function (book) {
+    openModal (book) {
       this.$refs.returnModal.open(book)
     }
   }

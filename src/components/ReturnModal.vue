@@ -5,13 +5,15 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn flat @click="close">キャンセル</v-btn>
-        <v-btn flat color="primary">OK</v-btn>
+        <v-btn flat color="primary" @click="onReturnClicked">OK</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
+import books from '../services/books.js'
+
 export default {
   data: () => {
     return {
@@ -21,12 +23,21 @@ export default {
   },
 
   methods: {
-    close: function () {
+    close () {
       this.dialog = false
     },
-    open: function (book) {
+    open (book) {
       this.title = book.title
       this.dialog = true
+    },
+    onReturnClicked () {
+      console.log('clicked')
+      books.returnBook()
+        .then((result) => {
+          console.log(result)
+        }, (e) => {
+          console.log(e)
+        })
     }
   }
 }
