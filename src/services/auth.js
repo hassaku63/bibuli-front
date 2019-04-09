@@ -115,5 +115,8 @@ export default {
     if (callback) {
       callback()
     }
+  },
+  isLoggedin: function () {
+    return AWS.config.credentials.needsRefresh()
   }
 }
