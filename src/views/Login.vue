@@ -43,6 +43,10 @@
 </template>
 
 <script>
+import store from '../store.js'
+import router from '../router.js'
+import Auth from '../services/auth.js'
+
 export default {
   data: () => {
     return {
@@ -51,8 +55,8 @@ export default {
       show: false,
       valid: false,
       emailRules: [
-        v => !!v || 'E-mail is required',
-        v => /.+@.+/.test(v) || 'E-mail must be valid'
+        // v => !!v || 'E-mail is required',
+        // v => /.+@.+/.test(v) || 'E-mail must be valid'
       ],
       rules: {
         required: value => !!value || 'Required.',
@@ -64,7 +68,14 @@ export default {
 
   methods: {
     login: function () {
-      this.$refs.form.validate()
+      if (this.$refs.form.validate()) {
+        Auth.login(this.email, this.password).then(() => {
+          store.commit('login')
+          router.push('search')
+        }).catch((e) => {
+          console.log(e)
+        })
+      }
     }
   }
 }

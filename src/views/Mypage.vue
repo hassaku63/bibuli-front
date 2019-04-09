@@ -29,6 +29,9 @@
         </v-list>
       </v-card>
     </v-flex>
+    <div class="logout">
+      <a class="logout-link" @click="logout">ログアウト</a>
+    </div>
   </v-layout>
   <ReturnModal ref="returnModal"></ReturnModal>
 </v-container>
@@ -37,6 +40,9 @@
 <script>
 import ReturnModal from '../components/ReturnModal.vue'
 import books from '../services/books.js'
+import Auth from '../services/auth.js'
+import store from '../store.js'
+import router from '../router.js'
 
 export default {
   components: {
@@ -86,6 +92,11 @@ export default {
     },
     openModal (book) {
       this.$refs.returnModal.open(book)
+    },
+    logout () {
+      Auth.logout()
+      store.commit('logout')
+      router.push('/login')
     }
   }
 }
@@ -94,5 +105,12 @@ export default {
 <style scoped>
 .red {
   color: #FF0000;
+}
+.logout {
+  position: absolute;
+  bottom: 1rem;
+  right: 0;
+  left: 0;
+  text-align: center;
 }
 </style>
