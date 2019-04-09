@@ -1,10 +1,10 @@
 import axios from 'axios'
+// import Auth from '@/services/auth.js'
 
 /* eslint-disable no-unused-vars */
 
 export default {
   bookSearch: function (word, by) {
-    console.log(process.env.VUE_APP_AWS_API_GATEWAY_DOMAIN)
     return new Promise(function (resolve, reject) {
       if (!validateArgs(word, by)) {
         reject(new Error('validation error'))
@@ -17,6 +17,11 @@ export default {
   }
 }
 
+var API_ENDPOINT = 'https://' +
+      process.env.VUE_APP_AWS_API_GATEWAY_ID + '.execute-api.' +
+      process.env.VUE_APP_AWS_API_GATEWAY_REGION + '.amazonaws.com/' +
+      process.env.VUE_APP_AWS_API_GATEWAY_STAGE + '/'
+
 const validateArgs = (word, by) => {
   if (by.toLowerCase() !== 'title') {
     return false
@@ -25,16 +30,12 @@ const validateArgs = (word, by) => {
 }
 
 const search = (word, by) => {
-  return new Promise((resolve, reject) => {
-    axios.get('https://' + process.env.VUE_APP_AWS_API_GATEWAY_DOMAIN + process.env.VUE_APP_AWS_API_PREFIX + '/search', {
+  var promise = new Promise((resolve, reject) => {
+    axios.get(API_ENDPOINT + '/search', {
       params: {
         word, by
       }
     }).then(result => {
-      console.log('Requests')
-      console.log(word, by)
-      console.log('Results')
-      console.log(result)
       if ('matched_items' in result.data) {
         resolve(result.data.matched_items)
       } else {
