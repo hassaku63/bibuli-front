@@ -46,7 +46,7 @@
 <script>
 import Card from '../components/Card.vue'
 import RentalModal from '../components/RentalModal.vue'
-import searcher from '../services/search'
+import Book from '@/services/books.js'
 
 const types = {
   'タイトル': 'title',
@@ -70,7 +70,7 @@ export default {
       let self = this
       self.error = ''
       console.log(self.text)
-      searcher.bookSearch(self.text, types[self.type])
+      Book.search(self.text, types[self.type])
         .then(function (books) {
           // books = []
           if (!books.length) {
