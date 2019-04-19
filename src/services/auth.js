@@ -63,7 +63,7 @@ const refreshAuth = function () { // eslint-disable-line
       })
     } else {
       // No refresh
-      resolve()
+      resolve(getCurrentUserSession())
     }
   })
 }
