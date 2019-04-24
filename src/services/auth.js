@@ -117,6 +117,8 @@ export default {
     }
   },
   isLoggedin: function () {
-    return AWS.config.credentials.needsRefresh()
+    // return !AWS.config.credentials.needsRefresh()
+    const keyPrefix = 'CognitoIdentityServiceProvider.' + appConfig.ClientId
+    return sessionStorage.getItem(keyPrefix + '.LastAuthUser') != null
   }
 }
