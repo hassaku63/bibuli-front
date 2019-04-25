@@ -86,6 +86,7 @@ export default {
         })
     },
     openModal: function (book) {
+      console.log(book)
       this.$refs.rentalModal.open(book)
     }
   }

@@ -1,7 +1,7 @@
 <template>
 <v-flex xs12 sm4>
   <v-card class="book-card">
-    <v-img v-bind:src="book.thumbnail_url" aspect-ratio="1.5">
+    <v-img v-bind:src="book.thumbnail_Url" aspect-ratio="1.5">
     </v-img>
     <v-card-title primary-title>
       <div>
@@ -20,7 +20,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .book-card {
   cursor: pointer
 }

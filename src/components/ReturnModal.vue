@@ -5,7 +5,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn flat @click="close">キャンセル</v-btn>
-        <v-btn flat color="primary" @click="onReturnClicked">OK</v-btn>
+        <v-btn flat color="primary" @click="onReturnClicked" :loading="loading">{{ buttonText }}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -18,7 +18,9 @@ export default {
   data: () => {
     return {
       dialog: false,
-      title: '魔法の世紀'
+      title: '',
+      loading: false,
+      buttonText: ''
     }
   },
 
@@ -28,9 +30,11 @@ export default {
     },
     open (book) {
       this.title = book.title
+      this.buttonText = '返す'
       this.dialog = true
     },
     onReturnClicked () {
+      this.loading = true
       console.log('clicked')
       books.returnBook()
         .then((result) => {
@@ -38,6 +42,11 @@ export default {
         }, (e) => {
           console.log(e)
         })
+      this.loading = false
+      this.buttonText = 'OK'
+      setTimeout(() => {
+        this.dialog = false
+      }, 500)
     }
   }
 }
