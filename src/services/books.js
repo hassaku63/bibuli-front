@@ -24,6 +24,7 @@ export default {
           data: {}
         }).then(result => {
           if ('matched_items' in result.data) {
+            console.log(result)
             resolve(result.data.matched_items)
           } else {
             reject(new Error('no "matched_items" key'))
@@ -54,6 +55,7 @@ export default {
   },
 
   rentalBook: function (bookId) {
+    /*
     return new Promise(function (resolve, reject) {
       var xday = new Date()
       xday.setDate(xday.getDate() + 14)
@@ -66,6 +68,32 @@ export default {
         dueDate: xday
       })
       // reject(new Error('Not Implemented'))
+    })
+    */
+    console.log({
+      'book_id': bookId,
+      'number_of_books': 1
+    })
+    return new Promise((resolve, reject) => {
+      Auth.refreshAuth().then((userSession) => {
+        axios.post(API_ENDPOINT + 'bibuli/checkout', {
+          'book_id': bookId,
+          'number_of_books': 1
+        }, {
+          headers: {
+            Authorization: userSession.idToken
+          }
+        }).then(result => {
+          if ('rental_id' in result.data) {
+            resolve(result.data)
+          } else {
+            reject(new Error('checkout failure'))
+          }
+        }, err => {
+          console.log(err)
+          reject(new Error(err))
+        })
+      })
     })
   },
 
