@@ -3,16 +3,16 @@
   <v-layout row>
     <v-flex xs12 sm6 offset-sm3>
       <v-subheader>{{ user }}さん</v-subheader>
-      <v-card v-if="books && books.length">
+      <v-card v-if="bookList && bookList.length">
         <v-list two-line>
-          <template v-for="book in books">
+          <template v-for="book in bookList">
 
             <v-list-tile
               :key="book.title"
               avatar
             >
               <v-list-tile-avatar>
-                <img :src="book.thumbnail">
+                <img :src="book.thumbnail_Url">
               </v-list-tile-avatar>
 
               <v-list-tile-content>
@@ -34,7 +34,7 @@
       <a class="logout-link" @click="logout">ログアウト</a>
     </div>
   </v-layout>
-  <ReturnModal ref="returnModal"></ReturnModal>
+  <ReturnModal ref="returnModal" @remove="remove"></ReturnModal>
 </v-container>
 </template>
 
@@ -56,33 +56,23 @@ export default {
         inset: true
       },
       user: 'ahaha',
-      books: [
-        {
-          thumbnail: 'https://images-fe.ssl-images-amazon.com/images/I/51bPeV7xPFL.jpg',
-          title: '魔法の世紀',
-          due_date: '2019/5/30'
-        },
-        {
-          thumbnail: 'https://images-fe.ssl-images-amazon.com/images/I/51bPeV7xPFL.jpg',
-          title: 'ある男',
-          due_date: '2019/1/23'
-        }
-      ]
+      bookList: []
     }
+  },
+
+  created: function () {
+    books.listRentals()
+      .then((result) => {
+        console.log(result)
+        this.bookList = result
+      }, (e) => {
+        console.log(e)
+      })
   },
 
   computed: {
     today: () => {
       return new Date()
-    },
-    books: () => {
-      books.listRentals()
-        .then((result) => {
-          console.log('success')
-          return result
-        }, (e) => {
-          console.log(e)
-        })
     }
   },
 
@@ -98,6 +88,14 @@ export default {
       Auth.logout()
       store.commit('logout')
       router.push('/login')
+    },
+    remove (bookId) {
+      console.log(bookId)
+      for (let i = 0; i < this.bookList.length; i++) {
+        if (this.bookList[i].book_id === bookId) {
+          this.bookList.splice(i, 1)
+        }
+      }
     }
   }
 }
