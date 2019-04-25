@@ -3,9 +3,9 @@
   <v-card class="book-card">
     <v-img v-bind:src="book.thumbnail_Url" aspect-ratio="1.5">
     </v-img>
-    <v-card-title primary-title>
+    <v-card-title>
       <div>
-        <h3 class="headline">{{book.title}}</h3>
+        <h3 class="">{{book.title}}</h3>
         <div>{{book.author}} 著</div>
         <div>ISBN-{{book.isbn13}}</div>
       </div>
@@ -26,6 +26,7 @@ export default {
 }
 .book-card .v-card__title {
   position: absolute;
+  height: 60%;
   left: 0;
   right: 0;
   bottom: 0;

@@ -36,7 +36,7 @@
           outline
         >{{error}}</v-alert>
       </v-layout>
-      <v-layout>
+      <v-layout class="book-list">
         <Card v-for="(book) in books" :key="book.book_id" :book="book" @click.native="openModal(book)"></Card>
         <RentalModal ref="rentalModal"></RentalModal>
       </v-layout>
@@ -49,8 +49,8 @@ import RentalModal from '../components/RentalModal.vue'
 import Book from '@/services/books.js'
 
 const types = {
-  'タイトル': 'title',
-  '著者': 'author'
+  'タイトル': 'title'
+  // '著者': 'author'
 }
 
 export default {
@@ -60,7 +60,7 @@ export default {
   },
   data: () => ({
     type: 'タイトル',
-    types: ['タイトル', '著者'],
+    types: ['タイトル'], //, '著者'],
     books: [],
     text: '',
     error: ''
@@ -69,7 +69,6 @@ export default {
     onSearchClicked: function () {
       let self = this
       self.error = ''
-      console.log(self.text)
       Book.search(self.text, types[self.type])
         .then(function (books) {
           // books = []
@@ -86,7 +85,6 @@ export default {
         })
     },
     openModal: function (book) {
-      console.log(book)
       this.$refs.rentalModal.open(book)
     }
   }
@@ -101,5 +99,11 @@ export default {
   position: absolute;
   top: 0;
   right: 0;
+}
+.book-list {
+  justify-content: space-between;
+}
+.book-list .v-responsive__content {
+  width: 30%;
 }
 </style>

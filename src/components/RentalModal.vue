@@ -58,6 +58,7 @@ export default {
             this.dialog = false
           }, 500)
         }, (e) => {
+          console.log(e)
           this.buttonText = 'Error'
           this.loading = false
         })
