@@ -37,20 +37,24 @@ export default {
     })
   },
   listRentals: function () {
-    return new Promise(function (resolve, reject) {
-      resolve([
-        {
-          thumbnail: 'https://images-fe.ssl-images-amazon.com/images/I/51bPeV7xPFL.jpg',
-          title: '魔法の世紀',
-          due_date: '2019/1/30'
-        },
-        {
-          thumbnail: 'https://images-fe.ssl-images-amazon.com/images/I/51bPeV7xPFL.jpg',
-          title: 'ある男',
-          due_date: '2019/1/23'
-        }
-      ])
-      // reject(new Error('Not Implemented'))
+    return new Promise((resolve, reject) => {
+      Auth.refreshAuth().then((userSession) => {
+        axios.get(API_ENDPOINT + 'bibuli/checkoutlist', {
+          headers: {
+            Authorization: userSession.idToken
+          }
+        }).then(result => {
+          if ('rental_objects' in result.data) {
+            console.log(result)
+            resolve(result.data.rental_objects)
+          } else {
+            reject(new Error('no "rental_objects" key'))
+          }
+        }, err => {
+          console.log(err)
+          reject(new Error(err))
+        })
+      })
     })
   },
 
