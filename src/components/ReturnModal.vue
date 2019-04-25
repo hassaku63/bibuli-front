@@ -5,7 +5,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn flat @click="close">キャンセル</v-btn>
-        <v-btn flat color="primary" @click="onReturnClicked" :loading="loading">{{ buttonText }}</v-btn>
+        <v-btn flat color="primary" @click="onReturnClicked(rentalId)" :loading="loading">{{ buttonText }}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -20,6 +20,7 @@ export default {
       dialog: false,
       title: '',
       bookId: '',
+      rentalId: '',
       loading: false,
       buttonText: ''
     }
@@ -32,12 +33,14 @@ export default {
     open (book) {
       this.title = book.title
       this.bookId = book.book_id
+      this.rentalId = book.rental_id
       this.buttonText = '返す'
       this.dialog = true
     },
-    onReturnClicked () {
+    onReturnClicked (rentalId) {
+      console.log(rentalId)
       this.loading = true
-      books.returnBook()
+      books.returnBook(rentalId)
         .then((result) => {
           this.loading = false
           this.buttonText = 'OK'
