@@ -3,7 +3,7 @@
   <v-layout row>
     <v-flex xs12 sm6 offset-sm3>
       <v-subheader>{{ user }}さん</v-subheader>
-      <v-card>
+      <v-card v-if="books && books.length">
         <v-list two-line>
           <template v-for="book in books">
 
@@ -28,6 +28,7 @@
           </template>
         </v-list>
       </v-card>
+      <p class="empty-list" v-else>現在レンタルしている本はありません。</p>
     </v-flex>
     <div class="logout">
       <a class="logout-link" @click="logout">ログアウト</a>
@@ -54,19 +55,19 @@ export default {
         divider: true,
         inset: true
       },
-      user: 'ahaha'
-      // books: [
-      //   {
-      //     thumbnail: 'https://images-fe.ssl-images-amazon.com/images/I/51bPeV7xPFL.jpg',
-      //     title: '魔法の世紀',
-      //     due_date: '2019/1/30'
-      //   },
-      //   {
-      //     thumbnail: 'https://images-fe.ssl-images-amazon.com/images/I/51bPeV7xPFL.jpg',
-      //     title: 'ある男',
-      //     due_date: '2019/1/23'
-      //   }
-      // ]
+      user: 'ahaha',
+      books: [
+        {
+          thumbnail: 'https://images-fe.ssl-images-amazon.com/images/I/51bPeV7xPFL.jpg',
+          title: '魔法の世紀',
+          due_date: '2019/5/30'
+        },
+        {
+          thumbnail: 'https://images-fe.ssl-images-amazon.com/images/I/51bPeV7xPFL.jpg',
+          title: 'ある男',
+          due_date: '2019/1/23'
+        }
+      ]
     }
   },
 
@@ -112,5 +113,9 @@ export default {
   right: 0;
   left: 0;
   text-align: center;
+}
+.empty-list {
+  padding-left: 16px;
+  padding-right: 16px;
 }
 </style>
