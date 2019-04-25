@@ -84,7 +84,7 @@ export default {
             Authorization: userSession.idToken
           }
         }).then(result => {
-          if ('rental_objects' in result.data) {
+          if ('rental_id' in result.data) {
             resolve(result.data)
           } else {
             reject(new Error('checkout failure'))
