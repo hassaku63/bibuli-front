@@ -101,9 +101,22 @@ export default {
     })
   },
 
-  returnBook: function (bookId) {
-    return new Promise(function (resolve, reject) {
-      reject(new Error('Not Implemented'))
+  returnBook: function (rentalId) {
+    return new Promise((resolve, reject) => {
+      Auth.refreshAuth().then((userSession) => {
+        axios.post(API_ENDPOINT + 'bibuli/return', {
+          'rental_id': rentalId
+        }, {
+          headers: {
+            Authorization: userSession.idToken
+          }
+        }).then(result => {
+          resolve(result.data)
+        }, err => {
+          console.log(err)
+          reject(new Error(err))
+        })
+      })
     })
   }
 }
