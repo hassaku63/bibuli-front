@@ -1,6 +1,8 @@
 import Vue from 'vue'
-import store from './store.js'
 import Router from 'vue-router'
+
+import store from './store.js'
+import Auth from './services/auth.js'
 import Mypage from './views/Mypage.vue'
 import Search from './views/Search.vue'
 import Login from './views/Login.vue'
@@ -44,6 +46,9 @@ var router = new Router({
 router.beforeEach((to, from, next) => {
   var loggedIn = store.state.loggedIn
   if (to.matched.some(record => !record.meta.isPublic) && !loggedIn) {
+    if (Auth.isLoggedin()) {
+      store.commit('login')
+    }
     next({ path: '/login' })
   } else if (to.path === '/login' && loggedIn) {
     next({ path: '/' })
