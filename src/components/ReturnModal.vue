@@ -19,6 +19,7 @@ export default {
     return {
       dialog: false,
       title: '',
+      bookId: '',
       loading: false,
       buttonText: ''
     }
@@ -30,23 +31,25 @@ export default {
     },
     open (book) {
       this.title = book.title
+      this.bookId = book.book_id
       this.buttonText = '返す'
       this.dialog = true
     },
     onReturnClicked () {
       this.loading = true
-      console.log('clicked')
       books.returnBook()
         .then((result) => {
-          console.log(result)
+          this.loading = false
+          this.buttonText = 'OK'
+          setTimeout(() => {
+            this.dialog = false
+            this.$emit('remove', this.bookId)
+          }, 500)
         }, (e) => {
+          this.loading = false
+          this.buttonText = 'Error'
           console.log(e)
         })
-      this.loading = false
-      this.buttonText = 'OK'
-      setTimeout(() => {
-        this.dialog = false
-      }, 500)
     }
   }
 }
