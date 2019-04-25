@@ -4,7 +4,7 @@
       <v-container>
         <v-layout row wrap align-start>
           <v-flex sm5>
-            <v-img v-bind:src="book.thumbnail_url"></v-img>
+            <v-img v-bind:src="book.thumbnail_Url"></v-img>
           </v-flex>
           <v-flex sm7>
             <v-card-title class="headline">{{book.title}}</v-card-title>
@@ -32,12 +32,13 @@ export default {
     return {
       dialog: false,
       book: {},
-      buttonText: '借りる',
+      buttonText: '',
       loading: false
     }
   },
   methods: {
     open (book) {
+      this.buttonText = '借りる'
       this.dialog = true
       this.book = book
     },
@@ -45,15 +46,17 @@ export default {
       this.dialog = false
     },
     onRentalClicked () {
+      this.dialog = true
+
       this.loading = true
-      let bookId = 1
+      let bookId = this.book.book_id // 実IDを取得
       books.rentalBook(bookId)
         .then((result) => {
           this.buttonText = 'OK'
           this.loading = false
-          setInterval(() => {
+          setTimeout(() => {
             this.dialog = false
-          }, 750)
+          }, 500)
         }, (e) => {
           this.buttonText = 'Error'
           this.loading = false
