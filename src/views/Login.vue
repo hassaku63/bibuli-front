@@ -13,6 +13,8 @@
               v-model="email"
               :rules="emailRules"
               label="メールアドレス"
+              type="email"
+              name="email"
               required
             ></v-text-field>
             <v-text-field

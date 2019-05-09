@@ -4,7 +4,7 @@
     <v-content>
       <router-view/>
     </v-content>
-    <v-footer>&copy; 2018- bibuli.</v-footer>
+    <v-footer>&copy; 2019- bibuli.</v-footer>
   </v-app>
 </template>
 
