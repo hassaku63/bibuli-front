@@ -2,7 +2,6 @@
 <v-container>
   <v-layout row>
     <v-flex xs12 sm6 offset-sm3>
-      <v-subheader>{{ user }}さん</v-subheader>
       <v-card v-if="bookList && bookList.length">
         <v-list two-line>
           <template v-for="book in bookList">
