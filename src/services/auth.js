@@ -40,7 +40,9 @@ const refreshAuth = function () { // eslint-disable-line
     Use case 32. 参照
   */
   return new Promise((resolve, reject) => {
-    if (AWS.config.credentials.needsRefresh()) {
+    if (!cognitoIdentity.session) {
+      reload()
+    } else if (AWS.config.credentials.needsRefresh()) {
       // Token refresh
       var refreshToken = cognitoIdentity.session.getRefreshToken()
       cognitoIdentity.user.refreshSession(refreshToken, (err, session) => {
@@ -55,15 +57,46 @@ const refreshAuth = function () { // eslint-disable-line
             if (err) {
               console.error(err)
               reject(new Error('Credentials refresh failure'))
-            } else {
-              resolve(getCurrentUserSession())
             }
           })
         }
       })
+    }
+    resolve(getCurrentUserSession())
+  })
+}
+
+const reload = function () {
+  return new Promise((resolve, reject) => {
+    // try login
+    cognitoIdentity.userPool = new CognitoUserPool({
+      UserPoolId: appConfig.UserPoolId,
+      ClientId: appConfig.ClientId,
+      Storage: sessionStorage
+    })
+
+    cognitoIdentity.user = cognitoIdentity.userPool.getCurrentUser()
+    if (cognitoIdentity.user != null) {
+      cognitoIdentity.user.getSession(function (err, session) {
+        if (err) {
+          console.error(err)
+          reject(new Error('can\'t get session'))
+        } else {
+          cognitoIdentity.session = session
+
+          // credential set
+          AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: appConfig.IdentityPoolId,
+            Logins: {
+              [loginsKey]: session.getIdToken().getJwtToken()
+            }
+          })
+
+          resolve(cognitoIdentity.user)
+        }
+      })
     } else {
-      // No refresh
-      resolve(getCurrentUserSession())
+      reject(new Error('can\'t find current user'))
     }
   })
 }
