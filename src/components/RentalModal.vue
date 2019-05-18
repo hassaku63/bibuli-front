@@ -18,9 +18,17 @@
               </v-card-text>
               <v-card-actions class="mt-2">
                 <v-btn flat="flat" @click="close">キャンセル</v-btn>
-                <v-btn class="primary" @click="onRentalClicked" :loading="loading">{{ buttonText }}</v-btn>
+                <v-btn class="primary" @click="onRentalClicked" :loading="loading" :disabled="disabled">{{ buttonText }}</v-btn>
               </v-card-actions>
             </v-flex>
+            <v-card-text v-if="error">
+              <v-alert
+                :value="true"
+                color="warning"
+                icon="priority_high"
+                outline
+              >{{error}}</v-alert>
+            </v-card-text>
           </v-flex>
         </v-layout>
       </v-container>
@@ -38,6 +46,8 @@ export default {
       book: {},
       buttonText: '',
       loading: false,
+      disabled: false,
+      error: ''
       overflowed: false,
       accordionText: '続きを読む',
       descriptionClosed: true
@@ -45,7 +55,14 @@ export default {
   },
   methods: {
     open (book) {
-      this.buttonText = '借りる'
+      this.error = ''
+      if (book.stock <= 0) {
+        this.disabled = true
+        this.buttonText = '在庫なし'
+      } else {
+        this.disabled = false
+        this.buttonText = '借りる'
+      }
       this.dialog = true
       this.book = book
     },
@@ -54,16 +71,23 @@ export default {
     },
     onRentalClicked () {
       this.dialog = true
-
       this.loading = true
       let bookId = this.book.book_id // 実IDを取得
       books.rentalBook(bookId)
         .then((result) => {
-          this.buttonText = 'OK'
-          this.loading = false
-          setTimeout(() => {
-            this.dialog = false
-          }, 500)
+          if (!result.rental_id) {
+            this.buttonText = 'ERROR'
+            this.loading = false
+            if (result.status.indexOf('out of stock!') !== -1) {
+              this.error = '在庫が切れてしまいました...'
+            }
+          } else {
+            this.buttonText = 'OK'
+            this.loading = false
+            setTimeout(() => {
+              this.dialog = false
+            }, 500)
+          }
         }, (e) => {
           console.log(e)
           this.buttonText = 'Error'

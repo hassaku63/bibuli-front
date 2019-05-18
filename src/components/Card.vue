@@ -2,10 +2,13 @@
 <v-flex xs12 sm4>
   <v-card class="book-card">
     <v-img v-bind:src="book.thumbnail_Url" aspect-ratio="1.5">
+    <v-chip color="primary" text-color="white" small label>
+      <span>{{ stockChip }}</span>
+    </v-chip>
     </v-img>
     <v-card-title>
       <div>
-        <h3 class="">{{book.title}}</h3>
+        <h3>{{book.title}}</h3>
         <div>{{book.author}} 著</div>
         <div>ISBN-{{book.isbn13}}</div>
       </div>
@@ -16,7 +19,16 @@
 
 <script>
 export default {
-  props: ['book']
+  props: ['book'],
+
+  computed: {
+    stockChip: function () {
+      if (this.book.stock <= 0) {
+        return '在庫なし'
+      }
+      return '残り: ' + this.book.stock
+    }
+  }
 }
 </script>
 
