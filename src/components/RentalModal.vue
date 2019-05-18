@@ -14,7 +14,7 @@
               <v-card-text class="pt-0">{{book.description}}</v-card-text>
               <v-card-actions>
                 <v-btn flat="flat" @click="close">キャンセル</v-btn>
-                <v-btn class="primary" @click="onRentalClicked" :loading="loading">{{ buttonText }}</v-btn>
+                <v-btn class="primary" @click="onRentalClicked" :loading="loading" :disabled="disabled">{{ buttonText }}</v-btn>
               </v-card-actions>
             </v-flex>
           </v-flex>
@@ -33,12 +33,19 @@ export default {
       dialog: false,
       book: {},
       buttonText: '',
-      loading: false
+      loading: false,
+      disabled: false
     }
   },
   methods: {
     open (book) {
-      this.buttonText = '借りる'
+      if (book.stock <= 0) {
+        this.disabled = true
+        this.buttonText = '在庫なし'
+      } else {
+        this.disabled = false
+        this.buttonText = '借りる'
+      }
       this.dialog = true
       this.book = book
     },
