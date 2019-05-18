@@ -47,7 +47,7 @@ export default {
       buttonText: '',
       loading: false,
       disabled: false,
-      error: ''
+      error: '',
       overflowed: false,
       accordionText: '続きを読む',
       descriptionClosed: true
