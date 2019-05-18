@@ -11,8 +11,12 @@
             <v-card-text class="pt-0 pb-1">{{book.author}}</v-card-text>
             <v-card-text class="pt-0">{{book.isbn13}}</v-card-text>
             <v-flex sm12>
-              <v-card-text class="pt-0">{{book.description}}</v-card-text>
-              <v-card-actions>
+              <v-card-text :class="{ closed: descriptionClosed }" class="py-0" ref="description">{{book.description}}</v-card-text>
+              <v-card-text v-show="overflowed" class="py-0">
+                <p v-show="overflowed && descriptionClosed" class="my-0 py-0">···</p>
+                <small class="read-more primary--text" @click="onAccordionClicked">{{ accordionText }}</small>
+              </v-card-text>
+              <v-card-actions class="mt-2">
                 <v-btn flat="flat" @click="close">キャンセル</v-btn>
                 <v-btn class="primary" @click="onRentalClicked" :loading="loading">{{ buttonText }}</v-btn>
               </v-card-actions>
@@ -33,7 +37,10 @@ export default {
       dialog: false,
       book: {},
       buttonText: '',
-      loading: false
+      loading: false,
+      overflowed: false,
+      accordionText: '続きを読む',
+      descriptionClosed: true
     }
   },
   methods: {
@@ -62,6 +69,28 @@ export default {
           this.buttonText = 'Error'
           this.loading = false
         })
+    },
+    onAccordionClicked () {
+      if (this.descriptionClosed) {
+        this.accordionText = '閉じる'
+      } else {
+        this.accordionText = '続きを読む'
+      }
+      this.descriptionClosed = !this.descriptionClosed
+    }
+  },
+
+  watch: {
+    book: function (val) {
+      let flag = false
+      if (!val.length) this.overflowed = flag
+      // process
+      this.$nextTick(function () {
+        let description = this.$refs.description
+        if (description) {
+          this.overflowed = description.scrollHeight > description.clientHeight
+        }
+      })
     }
   }
 }
@@ -70,5 +99,12 @@ export default {
 <style scoped>
 .v-card__actions {
   justify-content: flex-end;
+}
+.closed {
+  overflow: hidden;
+  height: 6em;
+}
+.read-more {
+  cursor: pointer
 }
 </style>
