@@ -1,8 +1,10 @@
 <template>
-<v-container>
-  <v-layout row>
-    <v-flex xs12 sm6 offset-sm3>
-      <v-card v-if="bookList && bookList.length">
+  <v-layout justify-center>
+    <v-flex xs12 sm6 class="pb-5">
+      <div class="text-xs-center" v-show="loading">
+        <v-progress-circular indeterminate color="primary" :width="3"></v-progress-circular>
+      </div>
+      <v-card v-show="!loading" v-if="bookList && bookList.length">
         <v-list two-line>
           <template v-for="book in bookList">
 
@@ -27,14 +29,13 @@
           </template>
         </v-list>
       </v-card>
-      <p class="empty-list" v-else>現在レンタルしている本はありません。</p>
+      <p class="empty-list" v-show="!loading" v-else>現在レンタルしている本はありません。</p>
     </v-flex>
     <div class="logout">
       <a class="logout-link" @click="logout">ログアウト</a>
     </div>
+    <ReturnModal ref="returnModal" @remove="remove"></ReturnModal>
   </v-layout>
-  <ReturnModal ref="returnModal" @remove="remove"></ReturnModal>
-</v-container>
 </template>
 
 <script>
@@ -48,6 +49,7 @@ export default {
   components: {
     ReturnModal
   },
+
   data: () => {
     return {
       setting: {
@@ -55,15 +57,16 @@ export default {
         inset: true
       },
       user: 'ahaha',
-      bookList: []
+      bookList: [],
+      loading: true
     }
   },
 
   created: function () {
     books.listRentals()
       .then((result) => {
-        console.log(result)
         this.bookList = result
+        this.loading = false
       }, (e) => {
         console.log(e)
       })
@@ -106,7 +109,7 @@ export default {
 }
 .logout {
   position: absolute;
-  bottom: 1rem;
+  bottom: .5rem;
   right: 0;
   left: 0;
   text-align: center;
