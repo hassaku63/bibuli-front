@@ -5,9 +5,9 @@
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items>
-      <v-btn v-if="loggedIn" :to="{name: 'search'}" flat>検索</v-btn>
-      <v-btn v-if="loggedIn" :to="{name: 'mypage'}" flat>マイページ</v-btn>
-      <v-btn v-if="!loggedIn" :to="{name: 'login'}" flat>ログイン</v-btn>
+      <v-btn v-show="loggedIn" :to="{name: 'search'}" flat>検索</v-btn>
+      <v-btn v-show="loggedIn" :to="{name: 'mypage'}" flat>マイページ</v-btn>
+      <v-btn v-show="!loggedIn" :to="{name: 'login'}" flat>ログイン</v-btn>
     </v-toolbar-items>
   </v-toolbar>
 </template>
@@ -22,7 +22,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .v-toolbar a {
   color: #FFF;
   text-decoration: none;

@@ -1,46 +1,45 @@
 <template>
-  <v-container>
-    <v-layout
-      text-xs-center
-      wrap
-      align-center
-      justify-center
-    >
-      <v-flex xs4 sm3 md2 d-flex>
+    <v-layout justify-center wrap>
+      <!--<v-flex xs4 sm3 md2>
         <v-select
           :items="types"
           v-model="type"
           label="by"
           solo
         ></v-select>
-        </v-flex>
-        <v-flex xs8 sm7 md6 class="search-bar">
-          <v-text-field
-            v-model="text"
-            v-on:keyup.enter="onSearchClicked"
-            label="Solo"
-            placeholder="search..."
-            class="search-text"
-            solo
-          ></v-text-field>
-          <v-btn flat icon @click="onSearchClicked" class="search-icon">
-            <v-icon>search</v-icon>
-          </v-btn>
-        </v-flex>
-      </v-layout>
-      <v-layout v-if="error">
+        </v-flex>-->
+      <v-flex xs12 sm8 md6 class="search-bar">
+        <v-text-field
+          v-model="text"
+          v-on:keyup.enter="onSearchClicked"
+          label="Solo"
+          placeholder="search..."
+          class="search-text"
+          solo
+        ></v-text-field>
+        <v-btn flat icon @click="onSearchClicked" class="search-icon">
+          <v-icon>search</v-icon>
+        </v-btn>
+      </v-flex>
+      <v-flex xs12 sm8 md8>
         <v-alert
-          :value="true"
+          :value="error"
           color="warning"
           icon="priority_high"
           outline
         >{{error}}</v-alert>
-      </v-layout>
-      <v-layout class="book-list">
-        <Card v-for="(book) in books" :key="book.book_id" :book="book" @click.native="openModal(book)"></Card>
-        <RentalModal ref="rentalModal"></RentalModal>
-      </v-layout>
-    </v-container>
+      </v-flex>
+      <v-flex xs12>
+        <v-container grid-list-xl fluid class="px-0">
+          <v-layout justify-start row wrap class="book-list">
+            <v-flex xs6 sm3 lg2 v-for="book in books" :key="book.book_id">
+              <Card :book="book" @click.native="openModal(book)"></Card>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-flex>
+      <RentalModal ref="rentalModal"></RentalModal>
+    </v-layout>
 </template>
 
 <script>
@@ -48,10 +47,10 @@ import Card from '../components/Card.vue'
 import RentalModal from '../components/RentalModal.vue'
 import Book from '@/services/books.js'
 
-const types = {
-  'タイトル': 'title'
-  // '著者': 'author'
-}
+// const types = {
+//   'タイトル': 'title'
+//   '著者': 'author'
+// }
 
 export default {
   components: {
@@ -59,8 +58,8 @@ export default {
     RentalModal
   },
   data: () => ({
-    type: 'タイトル',
-    types: ['タイトル'], //, '著者'],
+    type: 'title',
+    // types: ['タイトル'], //, '著者'],
     books: [],
     text: '',
     error: ''
@@ -69,7 +68,7 @@ export default {
     onSearchClicked: function () {
       let self = this
       self.error = ''
-      Book.search(self.text, types[self.type])
+      Book.search(self.text, self.type)
         .then(function (books) {
           // books = []
           if (!books.length) {
@@ -99,11 +98,5 @@ export default {
   position: absolute;
   top: 0;
   right: 0;
-}
-.book-list {
-  justify-content: space-between;
-}
-.book-list .v-responsive__content {
-  width: 30%;
 }
 </style>

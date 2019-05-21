@@ -2,7 +2,9 @@
   <v-app>
     <NavBar></NavBar>
     <v-content>
-      <router-view/>
+      <v-container>
+        <router-view/>
+      </v-container>
     </v-content>
     <v-footer>&copy; 2019- bibuli.</v-footer>
   </v-app>
@@ -24,7 +26,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .v-content, .v-footer { background-color: #EEEEEE !important; }
 .v-footer {
   padding: 0 24px;
