@@ -46,7 +46,7 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(record => !record.meta.isPublic)) {
     // confirm login
     if (!store.state.loggedIn) {
-      next({ path: '/login' })
+      next({ path: '/login', query: { redirect: to.fullPath } })
     }
   } else if (to.name === 'login' && store.state.loggedIn) {
     next({ path: '/' })
