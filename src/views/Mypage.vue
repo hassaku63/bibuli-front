@@ -57,24 +57,30 @@ export default {
         inset: true
       },
       user: 'ahaha',
-      bookList: [],
       loading: true
     }
   },
 
   created: function () {
-    books.listRentals()
-      .then((result) => {
-        this.bookList = result
-        this.loading = false
-      }, (e) => {
-        console.log(e)
-      })
+    if (!store.state.rentalList.length) {
+      books.listRentals()
+        .then((result) => {
+          store.commit('setRentalList', result)
+          this.loading = false
+        }, (e) => {
+          console.log(e)
+        })
+    } else {
+      this.loading = false
+    }
   },
 
   computed: {
-    today: () => {
+    today () {
       return new Date()
+    },
+    bookList () {
+      return store.state.rentalList
     }
   },
 
@@ -90,14 +96,6 @@ export default {
       Auth.logout()
       store.commit('logout')
       router.push('/login')
-    },
-    remove (bookId) {
-      console.log(bookId)
-      for (let i = 0; i < this.bookList.length; i++) {
-        if (this.bookList[i].book_id === bookId) {
-          this.bookList.splice(i, 1)
-        }
-      }
     }
   }
 }
