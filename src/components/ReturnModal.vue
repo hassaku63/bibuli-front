@@ -1,11 +1,11 @@
 <template :ref="returnModal">
   <v-dialog v-model="dialog" max-width="320">
     <v-card>
-      <v-card-title class="title mp-4">{{title}} を返却します</v-card-title>
+      <v-card-title class="title mp-4">{{ book.title }} を返却します</v-card-title>
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn flat @click="close">キャンセル</v-btn>
-        <v-btn flat color="primary" @click="onReturnClicked(rentalId)" :loading="loading">{{ buttonText }}</v-btn>
+        <v-btn flat color="primary" @click="onReturnClicked(book.rental_id)" :loading="loading">{{ buttonText }}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -19,24 +19,20 @@ export default {
   data: () => {
     return {
       dialog: false,
-      title: '',
-      bookId: '',
-      rentalId: '',
       loading: false,
-      buttonText: ''
+      buttonText: '',
+      book: {}
     }
   },
 
   methods: {
-    close () {
-      this.dialog = false
-    },
     open (book) {
-      this.title = book.title
-      this.bookId = book.book_id
-      this.rentalId = book.rental_id
+      this.book = book
       this.buttonText = '返す'
       this.dialog = true
+    },
+    close () {
+      this.dialog = false
     },
     onReturnClicked (rentalId) {
       console.log(rentalId)
