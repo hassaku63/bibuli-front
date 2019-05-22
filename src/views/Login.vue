@@ -73,7 +73,7 @@ export default {
       if (this.$refs.form.validate()) {
         Auth.login(this.email, this.password).then(() => {
           store.commit('login')
-          router.push(this.$route.query.redirect)
+          router.push(this.$route.query.redirect || 'search')
         }).catch((e) => {
           console.log(e)
         })
