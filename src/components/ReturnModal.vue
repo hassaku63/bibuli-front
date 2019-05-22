@@ -13,6 +13,7 @@
 
 <script>
 import books from '../services/books.js'
+import store from '../store.js'
 
 export default {
   data: () => {
@@ -46,7 +47,7 @@ export default {
           this.buttonText = 'OK'
           setTimeout(() => {
             this.dialog = false
-            this.$emit('remove', this.bookId)
+            store.commit('returnBook', rentalId)
           }, 500)
         }, (e) => {
           this.loading = false
