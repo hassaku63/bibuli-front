@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import Auth from './services/auth.js'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    loggedIn: false,
+    loggedIn: Auth.isLoggedin(),
     rentalList: []
   },
 
