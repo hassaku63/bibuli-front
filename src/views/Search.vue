@@ -80,11 +80,13 @@ export default {
           // books = []
           if (!books.length) {
             self.error = '該当する書籍が見つかりませんでした。'
+            self.$store.commit('setSearchList', [])
           } else {
             self.$store.commit('setSearchList', books)
           }
         }).catch(function (e) {
           self.error = e.message
+          self.$store.commit('setSearchList', [])
         })
     },
     openModal: function (book) {
