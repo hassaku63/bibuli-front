@@ -13,17 +13,15 @@
 export default {
   props: ['book'],
 
-  data () {
-    return {
-      stockStr: '在庫なし',
-      stockColor: '#AAA'
-    }
-  },
-
-  created: function () {
-    if (this.book.stock > 0) {
-      this.stockStr = '残り: ' + this.book.stock
-      this.stockColor = 'primary'
+  computed: {
+    stock: function () {
+      return parseInt(this.book.stock)
+    },
+    stockStr: function () {
+      return this.stock ? `残り: ${this.stock}` : '在庫なし'
+    },
+    stockColor: function () {
+      return this.stock ? 'primary' : '#AAA'
     }
   }
 }
