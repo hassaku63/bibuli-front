@@ -44,6 +44,7 @@ export default {
           setTimeout(() => {
             this.dialog = false
             store.commit('returnBook', rentalId)
+            store.commit('incrStock', this.book.book_id)
           }, 500)
         }, (e) => {
           this.loading = false

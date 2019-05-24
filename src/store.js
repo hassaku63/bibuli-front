@@ -30,6 +30,13 @@ const store = new Vuex.Store({
         }
       }
     },
+    incrStock (state, bookId) {
+      for (let i = 0; i < state.searchList.length; i++) {
+        if (state.searchList[i].book_id === bookId) {
+          state.searchList[i].stock++
+        }
+      }
+    },
     // rentalList
     setRentalList (state, books) {
       state.rentalList = books

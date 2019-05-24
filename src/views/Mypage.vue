@@ -34,7 +34,7 @@
     <div class="logout">
       <a class="logout-link" @click="logout">ログアウト</a>
     </div>
-    <ReturnModal ref="returnModal" @remove="remove"></ReturnModal>
+    <ReturnModal ref="returnModal"></ReturnModal>
   </v-layout>
 </template>
 
