@@ -7,6 +7,7 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     loggedIn: Auth.isLoggedin(),
+    searchList: [],
     rentalList: []
   },
 
@@ -17,6 +18,17 @@ const store = new Vuex.Store({
     },
     logout (state) {
       state.loggedIn = false
+    },
+    // searchList
+    setSearchList (state, books) {
+      state.searchList = books
+    },
+    decrStock (state, bookId) {
+      for (let i = 0; i < state.searchList.length; i++) {
+        if (state.searchList[i].book_id === bookId) {
+          state.searchList[i].stock--
+        }
+      }
     },
     // rentalList
     setRentalList (state, books) {

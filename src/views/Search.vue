@@ -38,7 +38,7 @@
           </v-layout>
         </v-container>
       </v-flex>
-      <RentalModal ref="rentalModal"></RentalModal>
+      <RentalModal ref="rentalModal" @decr="decrStock"></RentalModal>
     </v-layout>
 </template>
 
@@ -57,13 +57,20 @@ export default {
     Card,
     RentalModal
   },
+
   data: () => ({
     type: 'title',
     // types: ['タイトル'], //, '著者'],
-    books: [],
     text: '',
     error: ''
   }),
+
+  computed: {
+    books: function () {
+      return this.$store.state.searchList
+    }
+  },
+
   methods: {
     onSearchClicked: function () {
       let self = this
@@ -74,17 +81,18 @@ export default {
           if (!books.length) {
             self.error = '該当する書籍が見つかりませんでした。'
           } else {
-            books.forEach(book => {
-              self.books.splice(0, self.books.length, ...books)
-            })
+            self.$store.commit('setSearchList', books)
           }
         }).catch(function (e) {
-          self.books.splice(0, self.books.length)
           self.error = e.message
         })
     },
     openModal: function (book) {
       this.$refs.rentalModal.open(book)
+    },
+    decrStock: function (bookId) {
+      this.$store.commit('decrStock', bookId)
+      console.log(this.$store.state.searchList)
     }
   }
 }

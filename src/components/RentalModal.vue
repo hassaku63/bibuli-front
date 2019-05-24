@@ -86,6 +86,7 @@ export default {
             this.loading = false
             setTimeout(() => {
               this.dialog = false
+              this.$emit('decr', bookId)
             }, 500)
           }
         }, (e) => {
