@@ -9,7 +9,7 @@
           <template v-for="book in bookList">
 
             <v-list-tile
-              :key="book.title"
+              :key="book.rental_id"
               avatar
             >
               <v-list-tile-avatar>
@@ -80,7 +80,9 @@ export default {
       return new Date()
     },
     bookList () {
-      return store.state.rentalList
+      return store.state.rentalList.sort((a, b) => {
+        return (a.due_date < b.due_date) ? -1 : (a.due_date > b.due_date) ? 1 : 0
+      })
     }
   },
 
