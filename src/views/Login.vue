@@ -40,6 +40,13 @@
           </v-form>
         </v-card-text>
       </v-card>
+      <v-alert
+        :value="error"
+        color="warning"
+        icon="priority_high"
+        class="mt-4"
+        outline
+      >{{error}}</v-alert>
     </v-flex>
   </v-layout>
 </template>
@@ -64,7 +71,8 @@ export default {
         required: value => !!value || 'Required.',
         min: v => v.length >= 8 || 'Min 8 characters',
         emailMatch: () => ('The email and password you entered don\'t match')
-      }
+      },
+      error: ''
     }
   },
 
@@ -76,6 +84,7 @@ export default {
           router.push(this.$route.query.redirect || 'search')
         }).catch((e) => {
           console.log(e)
+          this.error = e.message
         })
       }
     }
